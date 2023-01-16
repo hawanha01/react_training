@@ -1,6 +1,5 @@
-import {React} from "react";
+import { React } from "react";
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button } from "@mui/material";
 const style = {
@@ -16,24 +15,40 @@ const style = {
 };
 
 const Cart = (props) => {
-  return(
+
+
+  return (
     <Modal
-    open={props.opened}
-    onClose={props.closed}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box sx={style}>
-      <Typography id="modal-modal-title" variant="h6" component="h2">
-        Text in a modal
-      </Typography>
-      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </Typography>
-      <Button onClick={props.closedModal} type="button">Close</Button>
-    </Box>
-  </Modal>
+      open={props.opened}
+      onClose={props.closed}
+    >
+      <Box sx={style}>
+        <ul>
+          {props.data.map((item, index) => {
+            return (<li key = {index} style={li_style}>
+              <div>
+                <h5>{item.name}</h5>
+                <h4>{item.price}</h4>
+              </div>
+              <div>
+                x{item.count}
+              </div>
+              <div>
+                <button>-</button>
+                <button>+</button>
+              </div>
+            </li>)
+          })}
+        </ul>
+        <Button onClick={props.closedModal} type="button">Close</Button>
+      </Box>
+    </Modal>
   );
 }
-
+const li_style = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItem: "center"
+}
 export default Cart;
