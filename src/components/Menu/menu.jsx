@@ -1,6 +1,7 @@
 import React from 'react';
 import Item from "./item";
 import Data from "../../data"
+import "./menu.css"
 const Menu = (props) => {
   const handleCart = (data) => {
     if(props.cart.find(item => item.id === data.id)){
@@ -14,10 +15,12 @@ const Menu = (props) => {
   }
 
   return(
-    <div>
-      <ul style={{listStyleType: "none"}}>
-        {Data.map((item, index) => <Item key = {index} item = {item} setCart = {handleCart} cart = {props.cart}/>)}
-      </ul>
+    <div className='main'>
+      <div className='child'>
+        <ul style={{listStyleType: "none"}}>
+          {Data.map((item, index) => <Item key = {index} item = {item} setCart = {handleCart} cart = {props.cart}/>)}
+        </ul>
+      </div>
     </div>
   )
 }

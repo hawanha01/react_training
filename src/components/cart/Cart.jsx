@@ -1,7 +1,8 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button } from "@mui/material";
+import "./cart.css"
 const style = {
   position: 'absolute',
   top: '50%',
@@ -14,33 +15,66 @@ const style = {
   p: 4,
 };
 
-const Cart = (props) => {
 
+const Cart = (props) => {
+  const [totalPrice, setTotalPrice] = useState(0);
+  const calculateTotalPrice = () => {
+    let sum = 0;
+    props.data.map(item => {
+      sum += parseFloat(parseFloat(item.count) * parseFloat(item.price));
+    })
+    return sum;
+  }
+
+  useEffect(()=>{ setTotalPrice(calculateTotalPrice) },[totalPrice])
+
+  const handleDecrement = (data) => {
+    data.count = data.count - 1;
+    props.setCart(data);
+    setTotalPrice(totalPrice - data.price)
+  }
+
+  const handleIncrement = (data) => {
+    if (data.count + 1 < 6) {
+      data.count = data.count + 1;
+      props.setCart(data);
+      setTotalPrice(totalPrice + data.price)
+    }
+  }
 
   return (
-    <Modal
+    <Modal className="modalClass"
       open={props.opened}
       onClose={props.closed}
     >
       <Box sx={style}>
-        <ul>
-          {props.data.map((item, index) => {
-            return (<li key = {index} style={li_style}>
-              <div>
-                <h5>{item.name}</h5>
-                <h4>{item.price}</h4>
-              </div>
-              <div>
-                x{item.count}
-              </div>
-              <div>
-                <button>-</button>
-                <button>+</button>
-              </div>
-            </li>)
-          })}
-        </ul>
-        <Button onClick={props.closedModal} type="button">Close</Button>
+        <div className="cartMain">
+          <div>
+            <ul>
+              {props.data.map((item, index) => {
+                return (<li key={index} style={li_style} className="listItem">
+                  <div>
+                    <h5>{item.name}</h5>
+                    <h4>{item.price}</h4>
+                  </div>
+                  <div className="valueShower">
+                    x{item.count}
+                  </div>
+                  <div>
+                    <button className="amountChanger" onClick={() => handleDecrement(item)}>-</button>
+                    <button className="amountChanger" onClick={() => handleIncrement(item)}>+</button>
+                  </div>
+                </li>)
+              })}
+            </ul>
+          </div>
+          <div className="cartFooter">
+            <div><h4><b>Total Amount</b></h4></div>
+            <div><h4><b>{totalPrice}</b></h4></div>
+          </div>
+        </div>
+        <button className="cancel" onClick={props.closedModal} type="button">Close</button>
+        {props.data.length > 0 ? <button className="order" onClick={props.closedModal} type="button">Order</button> : null}
       </Box>
     </Modal>
   );

@@ -10,23 +10,16 @@ function App() {
   const handleCart = (data) => {
     setCart(data)
   };
-  // console.log("cart:", cart)
+  
   return (
     <div className="App">
-      <Header cart = {cart} className="header"/>
-      <Image style={ImageStyle}/>
+      <Header cart = {cart} setCart = {handleCart}/>
+      <Image className="image"/>
       <Summary/>
       <Menu setCart = {handleCart} cart = {cart}/>
     </div>
   );
 }
-const HeaderStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0
-}
-const ImageStyle = {
-  marginTop: "30px"
-}
+
 
 export default App;
