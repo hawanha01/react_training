@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { Button } from "@mui/material";
+import CartData from "../../store/store";
 import "./cart.css"
 const style = {
   position: 'absolute',
@@ -17,28 +17,30 @@ const style = {
 
 
 const Cart = (props) => {
+  const allData = useContext(CartData);
   const [totalPrice, setTotalPrice] = useState(0);
+
   const calculateTotalPrice = () => {
     let sum = 0;
-    props.data.map(item => {
+    allData.items.map(item => {
       sum += parseFloat(parseFloat(item.count) * parseFloat(item.price));
     })
     return sum;
   }
 
-  useEffect(()=>{ setTotalPrice(calculateTotalPrice) },[totalPrice])
+  useEffect(() => { setTotalPrice(calculateTotalPrice) }, [totalPrice])
 
-  const handleDecrement = (data) => {
-    data.count = data.count - 1;
-    props.setCart(data);
-    setTotalPrice(totalPrice - data.price)
+  const handleDecrement = (item) => {
+    item.count = item.count - 1;
+    allData.decrement(item);
+    setTotalPrice(totalPrice - item.price);
   }
 
-  const handleIncrement = (data) => {
-    if (data.count + 1 < 6) {
-      data.count = data.count + 1;
-      props.setCart(data);
-      setTotalPrice(totalPrice + data.price)
+  const handleIncrement = (item) => {
+    if (item.count + 1 < 6) {
+      item.count = item.count + 1;
+      allData.addItem(item);
+      setTotalPrice(totalPrice + item.price);
     }
   }
 
@@ -51,7 +53,7 @@ const Cart = (props) => {
         <div className="cartMain">
           <div>
             <ul>
-              {props.data.map((item, index) => {
+              {allData.items.map((item, index) => {
                 return (<li key={index} style={li_style} className="listItem">
                   <div>
                     <h5>{item.name}</h5>
@@ -74,7 +76,7 @@ const Cart = (props) => {
           </div>
         </div>
         <button className="cancel" onClick={props.closedModal} type="button">Close</button>
-        {props.data.length > 0 ? <button className="order" onClick={props.closedModal} type="button">Order</button> : null}
+        {allData.totalItems > 0 ? <button className="order" onClick={props.closedModal} type="button">Order</button> : null}
       </Box>
     </Modal>
   );
