@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import CartData from "../../store/store";
 import "./cart.css"
+import { Link } from "react-router-dom";
 const style = {
   position: 'absolute',
   top: '50%',
@@ -20,15 +21,14 @@ const Cart = (props) => {
   const allData = useContext(CartData);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const calculateTotalPrice = () => {
+  useEffect(() => {
     let sum = 0;
+    console.log("useEffect")
     allData.items.map(item => {
       sum += parseFloat(parseFloat(item.count) * parseFloat(item.price));
     })
-    return sum;
-  }
-
-  useEffect(() => { setTotalPrice(calculateTotalPrice) }, [totalPrice])
+    setTotalPrice(sum);
+  },[])
 
   const handleDecrement = (item) => {
     item.count = item.count - 1;
@@ -76,7 +76,7 @@ const Cart = (props) => {
           </div>
         </div>
         <button className="cancel" onClick={props.closedModal} type="button">Close</button>
-        {allData.totalItems > 0 ? <button className="order" onClick={props.closedModal} type="button">Order</button> : null}
+        {allData.totalItems > 0 ? <button className="order" onClick={props.closedModal}><Link to='/receipt'>Order</Link></button> : null}
       </Box>
     </Modal>
   );

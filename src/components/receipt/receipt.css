@@ -1,0 +1,19 @@
+.item{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: black;
+  border-bottom: 1px solid #ccc;
+}
+.mainRecipt{
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+  border-radius: 14px;
+  width: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+}
+

@@ -1,6 +1,7 @@
 import Item from "./item";
 import Data from '../../store/data';
 import "./menu.css"
+
 const Menu = () => {
   return(
     <div className='main'>

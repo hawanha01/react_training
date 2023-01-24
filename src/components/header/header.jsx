@@ -1,7 +1,8 @@
-import {React,useState, useContext} from "react"
+import {React,useState, useContext} from "react";
+import { Link } from 'react-router-dom';
 import Cart from "../cart/Cart";
 import CartData from "../../store/store";
-import "./header.css"
+import "./header.css";
 
 
 const Header = (props) => {
@@ -17,12 +18,14 @@ const Header = (props) => {
   return (
     <nav className="header">
       <div>
-        <a><span className="heading">ReactMeals</span></a>
+        <Link to="/all-meal" className="heading">ReactMeals</Link>
+        <Link to="/new-meal" style={{color: "white"}}>Add Meal</Link>
       </div>
       <button className="headerButton" onClick={openModal}>
         <div className="Cart"><b><i className="fa fa-shopping-cart" style={{fontSize: "24px", padding: "0.25rem"}}/>  Your Cart</b></div>
         <div className="countBox">{allItems.totalItems}</div>
       </button>
+
       {modal && <Cart opened = {handleOpen} closed = {handleClose} closedModal = {closeModal}/>}
     </nav>
   );

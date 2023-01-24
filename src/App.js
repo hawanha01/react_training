@@ -1,26 +1,27 @@
 import './App.css';
-import Header from './components/header/header';
-import Image from './components/image/image';
-import Summary from './components/summary/summary';
 import Menu from './components/Menu/menu';
-import React from 'react';
+import React, { Component } from 'react';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import NewItem from './components/item/newItem';
+import Layout from './components/layout/layout';
+import Header from './components/header/header';
+import Receipt from './components/receipt/receipt';
 
 function App() {
-  // const [cart, setCart] = useState([]);
-  // const handleCart = (data) => {
-  //   setCart(data)
-  // };
 
   return (
     <div className="App">
-      {/* <Header cart = {cart} setCart = {handleCart}/>
-      <Image className="image"/>
-      <Summary/>
-      <Menu setCart = {handleCart} cart = {cart}/> */}
-      <Header/>
-      <Image className="image"/>
-      <Summary/>
-      <Menu/>
+      <Layout>
+        <BrowserRouter>
+          <Header/>
+          <Routes>
+            <Route path='/' element = {<Menu/>}/>
+            <Route path='/new-meal' element = {<NewItem/>}/>
+            <Route path='/all-meal' element = {<Menu/>} />
+            <Route path='/receipt' element = {<Receipt/>} />
+          </Routes>
+        </BrowserRouter>
+      </Layout>
     </div>
   );
 }
